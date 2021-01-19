@@ -7,7 +7,7 @@ import {apiGet} from '../misc/config';
 const Home = () => {
   const [input , setInput] = useState('');
   const [results, setResults] = useState(null);
-  const [searchOption, setSearchOption]=useState('shpws');
+  const [searchOption, setSearchOption]=useState('shows');
   
   const isShowsSearch=searchOption==='shows';
   
