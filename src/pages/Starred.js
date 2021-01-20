@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import MainPageLayout from '../components/MainPageLayout';
 import { useShows } from '../misc/custom-hooks';
 import { apiGet } from '../misc/config';
@@ -10,6 +10,11 @@ const Starred = () => {
   const [shows, setShows] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const removeShowFromState = useCallback(showIdToRemove => {
+    setShows(currShows => currShows.filter(({ show }) => show.id !== showIdToRemove));
+  }, []);
+
 
   useEffect(() => {
     if (starred && starred.length > 0) {
@@ -35,7 +40,12 @@ const Starred = () => {
       {isLoading && <div>Shows are still loading</div>}
       {error && <div>Error occured: {error}</div>}
       {!isLoading && !shows && <div>No shows were added</div>}
-      {!isLoading && !error && shows && <ShowGrid data={shows} />}
+      {!isLoading && !error && shows && (
+      <ShowGrid 
+        data={shows} 
+        removeShowFromState={removeShowFromState} // <-- PASS AS A NEW PROP
+      />
+    )}
     </MainPageLayout>
   );
 };
